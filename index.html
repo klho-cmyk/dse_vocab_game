@@ -296,47 +296,120 @@
             display: none;
         }
 
+        /* ============= IMPROVED REVIEW SECTION - CLEAR & READABLE ============= */
         .review-section {
-            background: #0f2c24e6;
+            background: linear-gradient(145deg, #1a3a2e, #0e2a22);
             border-radius: 2rem;
-            padding: 1.8rem;
-            margin-top: 1.5rem;
+            padding: 2rem;
+            margin-top: 1.8rem;
+            border: 1px solid rgba(250, 204, 21, 0.3);
         }
 
         .review-title {
-            font-size: 1.6rem;
+            font-size: 1.8rem;
             font-weight: bold;
             color: #facc15;
             border-left: 8px solid #f97316;
-            padding-left: 20px;
-            margin-bottom: 20px;
+            padding-left: 24px;
+            margin-bottom: 28px;
+            letter-spacing: -0.3px;
         }
 
         .review-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 14px;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 20px;
         }
 
         .review-item {
-            background: #1e3a2c;
+            background: linear-gradient(145deg, #2a4a3c, #1f3f33);
+            border-radius: 1.2rem;
+            padding: 1.2rem 1.5rem;
+            border-left: 6px solid #facc15;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .review-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        .review-word {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #ffd966;
+            display: inline-block;
+            background: rgba(0,0,0,0.3);
+            padding: 2px 12px;
+            border-radius: 40px;
+            margin-bottom: 10px;
+            letter-spacing: -0.2px;
+        }
+
+        .review-pos {
+            font-size: 0.9rem;
+            color: #ffb347;
+            font-weight: 500;
+            margin-left: 8px;
+        }
+
+        .review-chn {
+            font-size: 1.1rem;
+            color: #ffe0a3;
+            font-weight: 500;
+            margin: 8px 0;
+            padding: 6px 0;
+            border-bottom: 1px dashed rgba(255, 215, 100, 0.3);
+        }
+
+        .review-chn span {
+            background: rgba(0,0,0,0.3);
+            padding: 2px 10px;
+            border-radius: 30px;
+            display: inline-block;
+        }
+
+        .review-sentence {
+            font-size: 0.9rem;
+            color: #e2e8f0;
+            line-height: 1.5;
+            margin-top: 12px;
+            padding: 10px 12px;
+            background: rgba(0,0,0,0.25);
             border-radius: 1rem;
-            padding: 12px 16px;
-            border-left: 4px solid #facc15;
+            font-style: normal;
+            border-left: 3px solid #ffb347;
+        }
+
+        .review-sentence strong {
+            color: #ffcd7e;
+            font-weight: 700;
         }
 
         .end-screen {
             text-align: center;
-            padding: 2rem;
+            padding: 1.5rem 2rem 2rem;
         }
 
         .final-score {
-            font-size: 3.5rem;
+            font-size: 3.8rem;
             font-weight: 800;
             background: linear-gradient(135deg, #ffd966, #ffaa44);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .final-message {
+            font-size: 1.2rem;
+            color: #e2e8f0;
+            margin: 16px 0;
+            padding: 12px 24px;
+            background: rgba(0,0,0,0.3);
+            display: inline-block;
+            border-radius: 60px;
         }
 
         .btn-restart {
@@ -348,13 +421,51 @@
             font-size: 1.3rem;
             cursor: pointer;
             margin-top: 20px;
+            font-family: inherit;
+            box-shadow: 0 6px 0 #b45309;
+            transform: translateY(-2px);
+            transition: 0.1s;
         }
 
-        @media (max-width: 700px) {
-            .sentence { font-size: 1.1rem; padding: 1.2rem; }
-            .blank { min-width: 120px; font-size: 1rem; padding: 4px 12px; }
-            .option-btn { padding: 12px 16px; }
-            .illustration-emoji { font-size: 2.5rem; }
+        .btn-restart:active {
+            transform: translateY(3px);
+            box-shadow: 0 2px 0 #b45309;
+        }
+
+        .score-breakdown {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .score-badge {
+            background: rgba(0,0,0,0.4);
+            padding: 8px 20px;
+            border-radius: 40px;
+            font-size: 1rem;
+            color: #ffdf7e;
+        }
+
+        @media (max-width: 750px) {
+            .review-grid {
+                grid-template-columns: 1fr;
+            }
+            .review-word {
+                font-size: 1.2rem;
+            }
+            .sentence {
+                font-size: 1.1rem;
+                padding: 1.2rem;
+            }
+            .blank {
+                min-width: 100px;
+                font-size: 1rem;
+            }
+            .final-score {
+                font-size: 2.5rem;
+            }
         }
     </style>
 </head>
@@ -370,7 +481,6 @@
 
 <script>
     // ==================== VOCABULARY BANK (GAP-FILL SENTENCES) ====================
-    // Each entry has a sentence with a blank (__________) where the target word belongs
     const vocabBank = [
         { word: "poverty", pos: "n.", chn: "貧窮", sentence: "Many families in the city struggle with __________ and cannot afford basic needs like food and shelter." },
         { word: "inequality", pos: "n.", chn: "不平等", sentence: "The growing __________ between rich and poor is one of the biggest challenges facing society today." },
@@ -404,44 +514,13 @@
         { word: "solidarity", pos: "n.", chn: "團結", sentence: "Workers showed __________ by standing together during the strike for better working conditions." }
     ];
 
-    // Fun illustrations for each vocabulary theme
     const illustrationMap = {
-        poverty: ["🏚️🍚", "No one should go hungry"],
-        inequality: ["⚖️📉", "Fairness for everyone"],
-        discrimination: ["🚫👥", "Equal rights matter"],
-        marginalized: ["🗣️🔇", "Every voice matters"],
-        gentrification: ["🏙️🏚️", "Housing for all"],
-        homelessness: ["🛌🌧️", "A home for everyone"],
-        subsidize: ["💰🏥", "Helping those in need"],
-        advocate: ["📢🗣️", "Speak up for change"],
-        stigma: ["😔🏷️", "Break the silence"],
-        exploitation: ["⛓️👷", "Fair work for all"],
-        diversity: ["🌍🤝", "Many cultures united"],
-        inclusive: ["🤝🚪", "Everyone belongs"],
-        sustainable: ["🌱♻️", "Protect our future"],
-        vulnerable: ["🛡️😟", "Protect the weak"],
-        welfare: ["🏛️🤲", "Community support"],
-        disparity: ["📊🏔️", "Close the gap"],
-        alienation: ["😔🗣️", "Connect with others"],
-        rehabilitate: ["🏥🔄", "Second chances"],
-        empowerment: ["💪✨", "Strength within"],
-        prejudice: ["🚫👀", "Judge with kindness"],
-        humanitarian: ["🕊️🤲", "Help all people"],
-        civic: ["🏛️🗳️", "Be a good citizen"],
-        segregation: ["🚫🧑🤝🧑", "Together we stand"],
-        affordable: ["🏠💰", "Fair prices matter"],
-        activism: ["📢✊", "Make a difference"],
-        xenophobia: ["🚫🌍", "Open hearts welcome"],
-        philanthropy: ["🎁❤️", "Give generously"],
-        recidivism: ["🚔🔄", "Breaking the cycle"],
-        stagnation: ["⏸️📉", "Keep growing"],
-        solidarity: ["🤝❤️", "Together we rise"]
+        poverty: ["🏚️🍚", "No one should go hungry"], inequality: ["⚖️📉", "Fairness for everyone"], discrimination: ["🚫👥", "Equal rights matter"], marginalized: ["🗣️🔇", "Every voice matters"], gentrification: ["🏙️🏚️", "Housing for all"], homelessness: ["🛌🌧️", "A home for everyone"], subsidize: ["💰🏥", "Helping those in need"], advocate: ["📢🗣️", "Speak up for change"], stigma: ["😔🏷️", "Break the silence"], exploitation: ["⛓️👷", "Fair work for all"], diversity: ["🌍🤝", "Many cultures united"], inclusive: ["🤝🚪", "Everyone belongs"], sustainable: ["🌱♻️", "Protect our future"], vulnerable: ["🛡️😟", "Protect the weak"], welfare: ["🏛️🤲", "Community support"], disparity: ["📊🏔️", "Close the gap"], alienation: ["😔🗣️", "Connect with others"], rehabilitate: ["🏥🔄", "Second chances"], empowerment: ["💪✨", "Strength within"], prejudice: ["🚫👀", "Judge with kindness"], humanitarian: ["🕊️🤲", "Help all people"], civic: ["🏛️🗳️", "Be a good citizen"], segregation: ["🚫🧑🤝🧑", "Together we stand"], affordable: ["🏠💰", "Fair prices matter"], activism: ["📢✊", "Make a difference"], xenophobia: ["🚫🌍", "Open hearts welcome"], philanthropy: ["🎁❤️", "Give generously"], recidivism: ["🚔🔄", "Breaking the cycle"], stagnation: ["⏸️📉", "Keep growing"], solidarity: ["🤝❤️", "Together we rise"]
     };
 
     function getIllustration(word) {
         const data = illustrationMap[word.toLowerCase()];
-        if (data) return { emoji: data[0], text: data[1] };
-        return { emoji: "📖✨", text: "Learn vocabulary" };
+        return data ? { emoji: data[0], text: data[1] } : { emoji: "📖✨", text: "Learn vocabulary" };
     }
 
     function getDistractors(correctWord, allVocab, count = 3) {
@@ -466,228 +545,80 @@
                 const j = Math.floor(Math.random() * (i + 1));
                 [options[i], options[j]] = [options[j], options[i]];
             }
-            return {
-                wordObj: vocabItem,
-                sentence: vocabItem.sentence,
-                correctAnswer: vocabItem.word.toLowerCase(),
-                options: options
-            };
+            return { wordObj: vocabItem, sentence: vocabItem.sentence, correctAnswer: vocabItem.word.toLowerCase(), options };
         });
     }
 
-    let gameQuestions = [];
-    let currentQIndex = 0;
-    let userScore = 0;
-    let timeLeftSec = 300;
-    let timerInterval = null;
-    let gameActive = true;
-    let wrongAnswersLog = [];
-    let answeredFlags = [];
-    let waitingForProceed = false;
+    let gameQuestions = [], currentQIndex = 0, userScore = 0, timeLeftSec = 300, timerInterval = null, gameActive = true, wrongAnswersLog = [], answeredFlags = [], waitingForProceed = false;
 
     function updateUIStats() {
         document.getElementById('scoreDisplay').innerText = userScore;
         document.getElementById('qCounter').innerText = `${currentQIndex} / 30`;
     }
-
-    function updateTimerDisplay() {
-        const minutes = Math.floor(timeLeftSec / 60);
-        const seconds = timeLeftSec % 60;
-        document.getElementById('timerDisplay').innerText = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-    }
-
-    function startTimer() {
-        if (timerInterval) clearInterval(timerInterval);
-        timerInterval = setInterval(() => {
-            if (!gameActive || waitingForProceed) return;
-            if (timeLeftSec <= 0) {
-                clearInterval(timerInterval);
-                gameActive = false;
-                endGameDueToTimeout();
-            } else {
-                timeLeftSec--;
-                updateTimerDisplay();
-            }
-        }, 1000);
-    }
+    function updateTimerDisplay() { const m = Math.floor(timeLeftSec/60), s = timeLeftSec%60; document.getElementById('timerDisplay').innerText = `${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`; }
+    function startTimer() { if(timerInterval) clearInterval(timerInterval); timerInterval = setInterval(() => { if(!gameActive || waitingForProceed) return; if(timeLeftSec<=0) { clearInterval(timerInterval); gameActive=false; endGameDueToTimeout(); } else { timeLeftSec--; updateTimerDisplay(); } }, 1000); }
 
     function renderCurrentQuestion() {
-        if (!gameActive) return;
-        if (currentQIndex >= 30) {
-            endGameSuccess();
-            return;
-        }
-        const qData = gameQuestions[currentQIndex];
-        const illust = getIllustration(qData.wordObj.word);
-        const sentenceWithBlank = qData.sentence;
-        const sentenceHtml = sentenceWithBlank.replace(/__________/g, '<span class="blank">__________</span>');
-        
-        let optionsHtml = `<div class="options-grid" id="optionsGrid">`;
-        const prefixes = ['A', 'B', 'C', 'D'];
-        qData.options.forEach((opt, idx) => {
-            optionsHtml += `
-                <button class="option-btn" data-value="${opt.toLowerCase()}">
-                    <span class="option-prefix">${prefixes[idx]}</span>
-                    <span class="option-text">${escapeHtml(opt)}</span>
-                </button>
-            `;
-        });
-        optionsHtml += `</div><div id="feedbackArea" class="feedback">✨ Choose the word that best completes the sentence. +10 points, wrong = -5 points.</div>
-        <button id="proceedBtn" class="proceed-btn hidden">➡️ NEXT QUESTION</button>`;
-
-        const fullHtml = `
-            <div class="question-panel">
-                <div class="illustration-area">
-                    <div class="illustration">
-                        <div class="illustration-emoji">${illust.emoji}</div>
-                        <div class="illustration-text">${illust.text}</div>
-                    </div>
-                </div>
-                <div class="sentence">📖 ${sentenceHtml}</div>
-                ${optionsHtml}
-            </div>
-        `;
-        document.getElementById('dynamicContent').innerHTML = fullHtml;
-
-        const btns = document.querySelectorAll('.option-btn');
-        const proceedBtn = document.getElementById('proceedBtn');
-        
-        const disableOptions = () => {
-            btns.forEach(btn => btn.disabled = true);
-        };
-
-        btns.forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                if (!gameActive || waitingForProceed) return;
-                if (answeredFlags[currentQIndex]) {
-                    const fb = document.getElementById('feedbackArea');
-                    fb.innerHTML = `⚠️ You already answered this question. Click "NEXT QUESTION" to continue.`;
-                    return;
-                }
-                const selectedValue = btn.getAttribute('data-value');
-                const currentQ = gameQuestions[currentQIndex];
-                const isCorrect = (selectedValue === currentQ.correctAnswer);
-
-                btns.forEach(b => {
-                    const val = b.getAttribute('data-value');
-                    if (val === currentQ.correctAnswer) b.classList.add('correct-highlight');
-                    if (b === btn && !isCorrect) b.classList.add('wrong-highlight');
-                });
-
-                if (isCorrect) {
-                    userScore += 10;
-                    updateUIStats();
-                    document.getElementById('feedbackArea').innerHTML = `✅ CORRECT! +10 points. "${currentQ.wordObj.word}" is the right word to complete the sentence.`;
-                    answeredFlags[currentQIndex] = true;
-                } else {
-                    userScore -= 5;
-                    updateUIStats();
-                    wrongAnswersLog.push(currentQ.wordObj);
-                    const vocab = currentQ.wordObj;
-                    const explanationHtml = `
-                        <div class="vocab-card">
-                            <div class="word">🔤 ${vocab.word} (${vocab.pos})</div>
-                            <div class="vocab-detail">🇨🇳 ${vocab.chn}</div>
-                            <div class="simple-example">📌 Example: ${vocab.sentence.replace('__________', vocab.word)}</div>
-                            <div style="margin-top:8px;">💡 <strong>Remember:</strong> "${vocab.word}" means ${vocab.chn} in Chinese.</div>
-                        </div>
-                    `;
-                    document.getElementById('feedbackArea').innerHTML = `❌ WRONG! The correct word is <strong style="color:#ffb347">"${vocab.word}"</strong>. -5 points. ${explanationHtml}`;
-                    answeredFlags[currentQIndex] = true;
-                }
-                disableOptions();
-                waitingForProceed = true;
-                proceedBtn.classList.remove('hidden');
-            });
-        });
-
-        proceedBtn.addEventListener('click', () => {
-            if (!waitingForProceed) return;
-            waitingForProceed = false;
-            currentQIndex++;
-            updateUIStats();
-            if (currentQIndex < 30) renderCurrentQuestion();
-            else if (currentQIndex === 30) endGameSuccess();
-        });
+        if(!gameActive) return;
+        if(currentQIndex>=30) { endGameSuccess(); return; }
+        const qData = gameQuestions[currentQIndex], illust = getIllustration(qData.wordObj.word);
+        const sentenceHtml = qData.sentence.replace(/__________/g, '<span class="blank">__________</span>');
+        let optionsHtml = `<div class="options-grid">`;
+        const prefixes = ['A','B','C','D'];
+        qData.options.forEach((opt,idx) => { optionsHtml += `<button class="option-btn" data-value="${opt.toLowerCase()}"><span class="option-prefix">${prefixes[idx]}</span><span class="option-text">${escapeHtml(opt)}</span></button>`; });
+        optionsHtml += `</div><div id="feedbackArea" class="feedback">✨ Choose the word that best completes the sentence. +10 points, wrong = -5 points.</div><button id="proceedBtn" class="proceed-btn hidden">➡️ NEXT QUESTION</button>`;
+        document.getElementById('dynamicContent').innerHTML = `<div class="question-panel"><div class="illustration-area"><div class="illustration"><div class="illustration-emoji">${illust.emoji}</div><div class="illustration-text">${illust.text}</div></div></div><div class="sentence">📖 ${sentenceHtml}</div>${optionsHtml}</div>`;
+        const btns = document.querySelectorAll('.option-btn'), proceedBtn = document.getElementById('proceedBtn');
+        const disableOptions = () => btns.forEach(btn => btn.disabled = true);
+        btns.forEach(btn => { btn.addEventListener('click', () => {
+            if(!gameActive || waitingForProceed || answeredFlags[currentQIndex]) { if(answeredFlags[currentQIndex]) document.getElementById('feedbackArea').innerHTML = `⚠️ Already answered. Click NEXT.`; return; }
+            const selected = btn.getAttribute('data-value'), currentQ = gameQuestions[currentQIndex], isCorrect = (selected === currentQ.correctAnswer);
+            btns.forEach(b => { if(b.getAttribute('data-value')===currentQ.correctAnswer) b.classList.add('correct-highlight'); if(b===btn && !isCorrect) b.classList.add('wrong-highlight'); });
+            if(isCorrect) { userScore+=10; updateUIStats(); document.getElementById('feedbackArea').innerHTML = `✅ CORRECT! +10 points. "${currentQ.wordObj.word}" is correct.`; }
+            else { userScore-=5; updateUIStats(); wrongAnswersLog.push(currentQ.wordObj); const v=currentQ.wordObj; document.getElementById('feedbackArea').innerHTML = `❌ WRONG! Correct: <strong style="color:#ffb347">"${v.word}"</strong>. -5 points.<div class="vocab-card"><div class="word">🔤 ${v.word} (${v.pos})</div><div class="vocab-detail">🇨🇳 ${v.chn}</div><div class="simple-example">📌 ${v.sentence.replace('__________',v.word)}</div></div>`; }
+            answeredFlags[currentQIndex]=true; disableOptions(); waitingForProceed=true; proceedBtn.classList.remove('hidden');
+        }); });
+        proceedBtn.addEventListener('click', () => { if(waitingForProceed) { waitingForProceed=false; currentQIndex++; updateUIStats(); if(currentQIndex<30) renderCurrentQuestion(); else endGameSuccess(); } });
     }
 
-    function escapeHtml(str) {
-        return str.replace(/[&<>]/g, function(m) {
-            if (m === '&') return '&amp;';
-            if (m === '<') return '&lt;';
-            if (m === '>') return '&gt;';
-            return m;
-        });
-    }
+    function escapeHtml(str) { return str.replace(/[&<>]/g, m => m==='&'?'&amp;':m==='<'?'&lt;':'&gt;'); }
 
-    function endGameSuccess() {
-        if (timerInterval) clearInterval(timerInterval);
-        gameActive = false;
-        showEndScreen(false);
-    }
-
-    function endGameDueToTimeout() {
-        gameActive = false;
-        showEndScreen(true);
-    }
+    function endGameSuccess() { if(timerInterval) clearInterval(timerInterval); gameActive=false; showEndScreen(false); }
+    function endGameDueToTimeout() { gameActive=false; showEndScreen(true); }
 
     function showEndScreen(isTimeout) {
-        const uniqueMap = new Map();
-        for (let item of wrongAnswersLog) uniqueMap.set(item.word, item);
+        const uniqueMap = new Map(); for(let item of wrongAnswersLog) uniqueMap.set(item.word, item);
         const uniqueWrong = Array.from(uniqueMap.values());
         let reviewHtml = '';
-        if (uniqueWrong.length > 0) {
-            reviewHtml = `<div class="review-section"><div class="review-title">📘 VOCABULARY REVIEW (Words to Practice)</div><div class="review-grid">`;
+        if(uniqueWrong.length>0) {
+            reviewHtml = `<div class="review-section"><div class="review-title">📘 VOCABULARY REVIEW · Words to Practice</div><div class="review-grid">`;
             uniqueWrong.forEach(v => {
-                const completedSentence = v.sentence.replace('__________', v.word);
+                const fullSentence = v.sentence.replace('__________', `<strong>${v.word}</strong>`);
                 reviewHtml += `
                     <div class="review-item">
-                        <div class="review-word">${v.word} (${v.pos})</div>
-                        <div>🇨🇳 ${v.chn}</div>
-                        <div class="simple-example" style="margin-top:6px;">📌 ${completedSentence}</div>
+                        <div class="review-word">${v.word} <span class="review-pos">${v.pos}</span></div>
+                        <div class="review-chn"><span>🇨🇳 ${v.chn}</span></div>
+                        <div class="review-sentence">📌 ${fullSentence}</div>
                     </div>
                 `;
             });
             reviewHtml += `</div></div>`;
         } else {
-            reviewHtml = `<div class="review-section"><div class="review-title">🌟 PERFECT SCORE! You've mastered all 30 vocabulary words! 🌟</div></div>`;
+            reviewHtml = `<div class="review-section"><div class="review-title">🌟 PERFECT SCORE! 🌟</div><div style="text-align:center; padding:20px; color:#e2e8f0;">You've mastered all 30 vocabulary words! Excellent work!</div></div>`;
         }
-        const finalMsg = isTimeout ? "⏰ TIME'S UP! Keep practicing to improve your score!" : "🎉 CONGRATULATIONS! You completed all 30 gap-fill questions! 🎉";
-        const finalHtml = `<div class="end-screen"><div class="final-score">🏆 FINAL SCORE: ${userScore} / 300</div><p style="color:#f1f5e9; margin:10px">${finalMsg}</p><button class="btn-restart" id="restartBtn">⟳ PLAY AGAIN</button>${reviewHtml}</div>`;
+        const finalMsg = isTimeout ? "⏰ TIME'S UP! Keep practicing to improve!" : "🎉 CONGRATULATIONS! You completed all 30 gap-fill questions!";
+        const finalHtml = `<div class="end-screen"><div class="final-score">🏆 FINAL SCORE: ${userScore} / 300</div><div class="final-message">${finalMsg}</div><div class="score-breakdown"><div class="score-badge">✅ Correct: ${30-uniqueWrong.length}</div><div class="score-badge">❌ Incorrect: ${uniqueWrong.length}</div></div><button class="btn-restart" id="restartBtn">⟳ PLAY AGAIN</button>${reviewHtml}</div>`;
         document.getElementById('dynamicContent').innerHTML = finalHtml;
         document.getElementById('restartBtn').addEventListener('click', () => resetAndRestart());
     }
 
     function resetAndRestart() {
-        if (timerInterval) clearInterval(timerInterval);
+        if(timerInterval) clearInterval(timerInterval);
         gameQuestions = buildQuestionSet();
-        currentQIndex = 0;
-        userScore = 0;
-        timeLeftSec = 300;
-        gameActive = true;
-        wrongAnswersLog = [];
-        answeredFlags = new Array(30).fill(false);
-        waitingForProceed = false;
-        updateUIStats();
-        updateTimerDisplay();
-        startTimer();
-        renderCurrentQuestion();
+        currentQIndex = 0; userScore = 0; timeLeftSec = 300; gameActive = true; wrongAnswersLog = []; answeredFlags = new Array(30).fill(false); waitingForProceed = false;
+        updateUIStats(); updateTimerDisplay(); startTimer(); renderCurrentQuestion();
     }
-
-    function initGame() {
-        gameQuestions = buildQuestionSet();
-        currentQIndex = 0;
-        userScore = 0;
-        timeLeftSec = 300;
-        gameActive = true;
-        wrongAnswersLog = [];
-        answeredFlags = new Array(30).fill(false);
-        waitingForProceed = false;
-        updateUIStats();
-        updateTimerDisplay();
-        startTimer();
-        renderCurrentQuestion();
-    }
+    function initGame() { resetAndRestart(); }
     initGame();
 </script>
 </body>
