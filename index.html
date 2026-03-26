@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>LexiClash · DSE Social Issues · MC Edition</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(145deg, #10182f 0%, #0b1120 100%);
+            font-family: 'Poppins', 'Segoe UI', 'Inter', system-ui, -apple-system, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 24px;
+        }
+
+        .game-container {
+            max-width: 1300px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(2px);
+            border-radius: 3rem;
+            padding: 1.8rem;
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.2s;
+        }
+
+        .game-stats {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 100px;
+            padding: 0.8rem 2rem;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 215, 150, 0.3);
+        }
+
+        .stat-card {
+            background: #1e293b;
+            padding: 0.4rem 1.2rem;
+            border-radius: 60px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.2rem;
+            color: #facc15;
+            box-shadow: inset 0 1px 2px rgba(0,0,0,0.2), 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .stat-card span:first-child {
+            color: #cbd5e1;
+            font-weight: 500;
+        }
+
+        .stat-card .value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #ffdf7e;
+        }
+
+        .question-panel {
+            background: linear-gradient(135deg, #f8fafc 0%, #eef2ff 100%);
+            border-radius: 2rem;
+            padding: 2rem 2rem 1.8rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255,255,210,0.6);
+        }
+
+        .sentence {
+            font-size: 1.7rem;
+            font-weight: 600;
+            color: #0f172a;
+            background: #ffffffcc;
+            padding: 1.2rem;
+            border-radius: 1.5rem;
+            line-height: 1.4;
+            word-break: break-word;
+            backdrop-filter: blur(4px);
+            margin-bottom: 2rem;
+            text-align: center;
+            font-family: 'Inter', monospace;
+        }
+
+        .gap {
+            display: inline-block;
+            min-width: 180px;
+            background: #fef9c3;
+            border-radius: 60px;
+            padding: 0 12px;
+            text-decoration: underline;
+            text-decoration-thickness: 4px;
+            text-decoration-color: #f97316;
+            color: #b45309;
+            font-weight: 800;
+            margin: 0 4px;
+        }
+
+        /* MC Options Grid */
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+            margin: 20px 0 20px;
+        }
+
+        .option-btn {
+            background: #1e293b;
+            border: 2px solid #334155;
+            border-radius: 60px;
+            padding: 14px 20px;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #f1f5f9;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: inherit;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .option-btn:hover:not(:disabled) {
+            background: #2d3a4e;
+            border-color: #facc15;
+            transform: translateX(4px);
+        }
+
+        .option-prefix {
+            background: #facc15;
+            color: #0f172a;
+            width: 32px;
+            height: 32px;
+            border-radius: 40px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1rem;
+        }
+
+        .option-text {
+            flex: 1;
+        }
+
+        .option-btn.disabled-opt, .option-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        .option-btn.correct-highlight {
+            background: #15803d;
+            border-color: #4ade80;
+            box-shadow: 0 0 0 2px #86efac;
+        }
+
+        .option-btn.wrong-highlight {
+            background: #991b1b;
+            border-color: #f87171;
+        }
+
+        .feedback {
+            margin-top: 20px;
+            background: #1e293bdd;
+            padding: 14px 18px;
+            border-radius: 40px;
+            font-size: 0.95rem;
+            color: #f1f5f9;
+            text-align: center;
+            backdrop-filter: blur(4px);
+            border-left: 6px solid #facc15;
+        }
+
+        .vocab-card {
+            margin-top: 18px;
+            background: #2d3a4e;
+            border-radius: 1.5rem;
+            padding: 1rem 1.6rem;
+            color: #fef9e6;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            border: 1px solid #ffb347;
+            box-shadow: 0 8px 14px rgba(0,0,0,0.3);
+        }
+
+        .vocab-card .word {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -0.3px;
+            color: #ffb347;
+        }
+
+        .vocab-card .details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            font-size: 0.9rem;
+        }
+
+        .example {
+            font-style: italic;
+            color: #cbd5e6;
+            margin-top: 6px;
+        }
+
+        .review-section {
+            background: #0f172ae6;
+            border-radius: 2rem;
+            padding: 1.6rem;
+            margin-top: 1rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .review-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #facc15;
+            border-left: 8px solid #f97316;
+            padding-left: 20px;
+            margin-bottom: 18px;
+        }
+
+        .review-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 12px;
+        }
+
+        .review-item {
+            background: #1e293b;
+            border-radius: 1rem;
+            padding: 12px 16px;
+            transition: 0.1s;
+        }
+
+        .review-word {
+            font-weight: 800;
+            font-size: 1.2rem;
+            color: #facc15;
+        }
+
+        .review-detail {
+            font-size: 0.8rem;
+            color: #cbd5e1;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .end-screen {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .final-score {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffd966, #ff9f4a);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .btn-restart {
+            background: linear-gradient(95deg, #f97316, #facc15);
+            border: none;
+            padding: 12px 35px;
+            border-radius: 60px;
+            font-weight: bold;
+            font-size: 1.3rem;
+            color: #0f172a;
+            cursor: pointer;
+            margin-top: 20px;
+            font-family: inherit;
+            box-shadow: 0 5px 0 #b45309;
+            transform: translateY(-2px);
+            transition: 0.1s;
+        }
+
+        .btn-restart:active {
+            transform: translateY(3px);
+            box-shadow: 0 1px 0 #b45309;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 700px) {
+            .options-grid {
+                grid-template-columns: 1fr;
+            }
+            .sentence {
+                font-size: 1.2rem;
+            }
+            .stat-card {
+                font-size: 0.9rem;
+                padding: 0.2rem 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="game-container" id="gameRoot">
+    <div class="game-stats" id="statsArea">
+        <div class="stat-card"><span>⏱️ TIME</span> <span class="value" id="timerDisplay">05:00</span></div>
+        <div class="stat-card"><span>🏆 SCORE</span> <span class="value" id="scoreDisplay">0</span></div>
+        <div class="stat-card"><span>📋 PROGRESS</span> <span class="value" id="qCounter">0 / 30</span></div>
+    </div>
+    <div id="dynamicContent"></div>
+</div>
+
+<script>
+    // ======================== DSE VOCABULARY BANK (SOCIAL ISSUES) ========================
+    const vocabBank = [
+        { word: "poverty", pos: "n.", chn: "貧窮", example: "Many NGOs work to reduce poverty in urban areas." },
+        { word: "inequality", pos: "n.", chn: "不平等", example: "Gender inequality remains a serious social issue." },
+        { word: "discrimination", pos: "n.", chn: "歧視", example: "Laws protect citizens from racial discrimination." },
+        { word: "marginalized", pos: "adj.", chn: "被邊緣化的", example: "Marginalized groups often struggle for equal opportunities." },
+        { word: "gentrification", pos: "n.", chn: "仕紳化", example: "Gentrification can displace long-term residents." },
+        { word: "homelessness", pos: "n.", chn: "無家可歸", example: "Homelessness has increased due to the housing crisis." },
+        { word: "subsidize", pos: "v.", chn: "資助／補貼", example: "The government subsidizes public transport to help the poor." },
+        { word: "advocate", pos: "v.", chn: "提倡", example: "Activists advocate for stricter environmental laws." },
+        { word: "stigma", pos: "n.", chn: "污名", example: "There is a stigma attached to mental illness." },
+        { word: "exploitation", pos: "n.", chn: "剝削", example: "Child labor is a form of exploitation." },
+        { word: "diversity", pos: "n.", chn: "多樣性", example: "Cultural diversity enriches our society." },
+        { word: "inclusive", pos: "adj.", chn: "包容的", example: "We need more inclusive education policies." },
+        { word: "sustainable", pos: "adj.", chn: "可持續的", example: "Sustainable development balances economy and ecology." },
+        { word: "vulnerable", pos: "adj.", chn: "脆弱的", example: "Elderly people are vulnerable during heatwaves." },
+        { word: "welfare", pos: "n.", chn: "福利", example: "Social welfare programs support low-income families." },
+        { word: "disparity", pos: "n.", chn: "差距", example: "The wealth disparity between rich and poor is growing." },
+        { word: "alienation", pos: "n.", chn: "疏離感", example: "Urban alienation can lead to mental health issues." },
+        { word: "rehabilitate", pos: "v.", chn: "改造／康復", example: "Programs to rehabilitate former offenders are crucial." },
+        { word: "empowerment", pos: "n.", chn: "賦權", example: "Women's empowerment leads to stronger communities." },
+        { word: "prejudice", pos: "n.", chn: "偏見", example: "Prejudice often stems from ignorance." },
+        { word: "humanitarian", pos: "adj.", chn: "人道主義的", example: "Humanitarian aid reached the disaster zone." },
+        { word: "civic", pos: "adj.", chn: "公民的", example: "Civic participation is vital for democracy." },
+        { word: "segregation", pos: "n.", chn: "隔離", example: "Racial segregation was abolished decades ago." },
+        { word: "affordable", pos: "adj.", chn: "負擔得起的", example: "Affordable housing is a major issue in cities." },
+        { word: "activism", pos: "n.", chn: "行動主義", example: "Youth activism drives climate awareness." },
+        { word: "xenophobia", pos: "n.", chn: "仇外心理", example: "Xenophobia harms social cohesion." },
+        { word: "philanthropy", pos: "n.", chn: "慈善", example: "Corporate philanthropy supports community projects." },
+        { word: "recidivism", pos: "n.", chn: "再犯", example: "Programs aim to reduce recidivism among ex-prisoners." },
+        { word: "stagnation", pos: "n.", chn: "停滯", example: "Economic stagnation leads to unemployment." },
+        { word: "solidarity", pos: "n.", chn: "團結", example: "Workers showed solidarity during the strike." }
+    ];
+
+    // Helper: generate gap-fill sentence (replace target word with blank)
+    function buildGapSentence(wordObj) {
+        const regex = new RegExp(`\\b${wordObj.word}\\b`, 'gi');
+        return wordObj.example.replace(regex, '__________');
+    }
+
+    // Generate 3 plausible distractors (wrong options) from the vocabulary pool (excluding the correct word)
+    function getDistractors(correctWord, allVocab, count = 3) {
+        const candidates = allVocab.filter(item => item.word.toLowerCase() !== correctWord.toLowerCase());
+        // shuffle candidates
+        for (let i = candidates.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [candidates[i], candidates[j]] = [candidates[j], candidates[i]];
+        }
+        return candidates.slice(0, count).map(item => item.word);
+    }
+
+    // Build full question set (30 questions, each with 4 options: correct + 3 distractors)
+    function buildQuestionSet() {
+        const shuffledVocab = [...vocabBank];
+        for (let i = shuffledVocab.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [shuffledVocab[i], shuffledVocab[j]] = [shuffledVocab[j], shuffledVocab[i]];
+        }
+        // exactly 30
+        return shuffledVocab.map(wordObj => {
+            const distractors = getDistractors(wordObj.word, vocabBank, 3);
+            let options = [wordObj.word, ...distractors];
+            // shuffle options order
+            for (let i = options.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [options[i], options[j]] = [options[j], options[i]];
+            }
+            return {
+                wordObj: wordObj,
+                sentence: buildGapSentence(wordObj),
+                correctAnswer: wordObj.word.toLowerCase(),
+                options: options,
+                optionObjects: options.map(opt => ({ text: opt, isCorrect: opt.toLowerCase() === wordObj.word.toLowerCase() }))
+            };
+        });
+    }
+
+    let gameQuestions = [];
+    let currentQIndex = 0;
+    let userScore = 0;
+    let timeLeftSec = 300;
+    let timerInterval = null;
+    let gameActive = true;
+    let wrongAnswersLog = [];      // store wordObj for each wrong attempt
+    let answeredFlags = [];        // track if current question already answered
+
+    // UI updates
+    function updateUIStats() {
+        document.getElementById('scoreDisplay').innerText = userScore;
+        document.getElementById('qCounter').innerText = `${currentQIndex} / 30`;
+    }
+
+    function updateTimerDisplay() {
+        const minutes = Math.floor(timeLeftSec / 60);
+        const seconds = timeLeftSec % 60;
+        document.getElementById('timerDisplay').innerText = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        if (timeLeftSec <= 0) {
+            document.getElementById('timerDisplay').innerText = `00:00`;
+        }
+    }
+
+    function startTimer() {
+        if (timerInterval) clearInterval(timerInterval);
+        timerInterval = setInterval(() => {
+            if (!gameActive) return;
+            if (timeLeftSec <= 0) {
+                clearInterval(timerInterval);
+                gameActive = false;
+                endGameDueToTimeout();
+            } else {
+                timeLeftSec--;
+                updateTimerDisplay();
+            }
+        }, 1000);
+    }
+
+    // show vocab card helper
+    function showWrongFeedback(wordObj, containerId = 'feedbackArea') {
+        const feedbackDiv = document.getElementById(containerId);
+        const vocabCardHtml = `
+            <div class="vocab-card">
+                <div class="word">🔤 ${wordObj.word} (${wordObj.pos})</div>
+                <div class="details">🇨🇳 ${wordObj.chn}</div>
+                <div class="example">💡 Example: ${wordObj.example}</div>
+            </div>
+        `;
+        feedbackDiv.innerHTML = `❌ WRONG! The correct word is <strong style="color:#ffb347">"${wordObj.word}"</strong>. -5 points. ${vocabCardHtml}`;
+    }
+
+    function showCorrectFeedback() {
+        const feedbackDiv = document.getElementById('feedbackArea');
+        feedbackDiv.innerHTML = `✅ CORRECT! +10 points. Great job! 🎉`;
+    }
+
+    // render current question with MC options
+    function renderCurrentQuestion() {
+        if (!gameActive) return;
+        if (currentQIndex >= 30) {
+            endGameSuccess();
+            return;
+        }
+
+        const qData = gameQuestions[currentQIndex];
+        const sentenceHtml = qData.sentence.replace(/__________/g, '<span class="gap">__________</span>');
+        const options = qData.options;
+
+        // Build options buttons
+        let optionsHtml = `<div class="options-grid" id="optionsGrid">`;
+        const prefixes = ['A', 'B', 'C', 'D'];
+        options.forEach((opt, idx) => {
+            optionsHtml += `
+                <button class="option-btn" data-value="${opt.toLowerCase()}" data-opt-index="${idx}">
+                    <span class="option-prefix">${prefixes[idx]}</span>
+                    <span class="option-text">${escapeHtml(opt)}</span>
+                </button>
+            `;
+        });
+        optionsHtml += `</div>`;
+
+        const fullHtml = `
+            <div class="question-panel">
+                <div class="sentence">📖 ${sentenceHtml}</div>
+                ${optionsHtml}
+                <div id="feedbackArea" class="feedback">✨ Choose the correct word to complete the sentence. +10 marks, wrong = -5 marks.</div>
+            </div>
+        `;
+        document.getElementById('dynamicContent').innerHTML = fullHtml;
+
+        // attach event listeners to option buttons
+        const btns = document.querySelectorAll('.option-btn');
+        const disableSelection = () => {
+            btns.forEach(btn => {
+                btn.disabled = true;
+                btn.style.cursor = 'not-allowed';
+            });
+        };
+
+        btns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                if (!gameActive) return;
+                if (answeredFlags[currentQIndex]) {
+                    const fb = document.getElementById('feedbackArea');
+                    fb.innerHTML = `⚠️ You already answered this question! Moving on soon...`;
+                    return;
+                }
+
+                const selectedValue = btn.getAttribute('data-value');
+                const currentQ = gameQuestions[currentQIndex];
+                const isCorrect = (selectedValue === currentQ.correctAnswer);
+
+                // highlight correct/wrong styles
+                btns.forEach(b => {
+                    const val = b.getAttribute('data-value');
+                    if (val === currentQ.correctAnswer) {
+                        b.classList.add('correct-highlight');
+                    }
+                    if (b === btn && !isCorrect) {
+                        b.classList.add('wrong-highlight');
+                    }
+                });
+
+                if (isCorrect) {
+                    // CORRECT: +10
+                    userScore += 10;
+                    updateUIStats();
+                    showCorrectFeedback();
+                    answeredFlags[currentQIndex] = true;
+                    disableSelection();
+                    setTimeout(() => {
+                        if (gameActive) {
+                            currentQIndex++;
+                            updateUIStats();
+                            if (currentQIndex < 30) renderCurrentQuestion();
+                            else if (currentQIndex === 30) endGameSuccess();
+                        }
+                    }, 1000);
+                } else {
+                    // WRONG: -5 marks
+                    userScore -= 5;
+                    updateUIStats();
+                    // record wrong vocab for review
+                    wrongAnswersLog.push(currentQ.wordObj);
+                    showWrongFeedback(currentQ.wordObj, 'feedbackArea');
+                    answeredFlags[currentQIndex] = true;
+                    disableSelection();
+                    setTimeout(() => {
+                        if (gameActive) {
+                            currentQIndex++;
+                            updateUIStats();
+                            if (currentQIndex < 30) renderCurrentQuestion();
+                            else if (currentQIndex === 30) endGameSuccess();
+                        }
+                    }, 2000);
+                }
+            });
+        });
+    }
+
+    function escapeHtml(str) {
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
+
+    function endGameSuccess() {
+        if (timerInterval) clearInterval(timerInterval);
+        gameActive = false;
+        showEndScreen(false);
+    }
+
+    function endGameDueToTimeout() {
+        gameActive = false;
+        showEndScreen(true);
+    }
+
+    function showEndScreen(isTimeout = false) {
+        // generate unique review list from wrongAnswersLog
+        const uniqueWrongMap = new Map();
+        for (let item of wrongAnswersLog) {
+            if (!uniqueWrongMap.has(item.word)) {
+                uniqueWrongMap.set(item.word, item);
+            }
+        }
+        const uniqueWrongVocabs = Array.from(uniqueWrongMap.values());
+
+        let reviewHtml = '';
+        if (uniqueWrongVocabs.length > 0) {
+            reviewHtml = `<div class="review-section"><div class="review-title">📘 VOCAB REVIEW · words you missed</div><div class="review-grid">`;
+            uniqueWrongVocabs.forEach(v => {
+                reviewHtml += `
+                    <div class="review-item">
+                        <div class="review-word">${v.word}  (${v.pos})</div>
+                        <div class="review-detail">${v.chn}</div>
+                        <div class="example" style="font-size:0.75rem">📌 ${v.example}</div>
+                    </div>
+                `;
+            });
+            reviewHtml += `</div></div>`;
+        } else {
+            reviewHtml = `<div class="review-section"><div class="review-title">🌟 PERFECT SCORE! No wrong answers — you've mastered all social issues vocabulary! 🌟</div></div>`;
+        }
+
+        const finalMessage = isTimeout ? "⏰ TIME'S UP! Game over." : "🎉 CONGRATULATIONS! You completed all 30 multiple-choice questions! 🎉";
+        const finalScoreHtml = `<div class="end-screen">
+            <div class="final-score">🏅 YOUR SCORE: ${userScore} / 300</div>
+            <p style="color:#e2e8f0; margin: 12px 0">${finalMessage}</p>
+            <button class="btn-restart" id="restartBtn">⟳ PLAY AGAIN</button>
+            ${reviewHtml}
+        </div>`;
+
+        document.getElementById('dynamicContent').innerHTML = finalScoreHtml;
+        document.getElementById('restartBtn').addEventListener('click', () => {
+            resetAndRestart();
+        });
+        document.getElementById('scoreDisplay').innerText = userScore;
+        document.getElementById('qCounter').innerText = `30 / 30`;
+    }
+
+    function resetAndRestart() {
+        if (timerInterval) clearInterval(timerInterval);
+        gameQuestions = buildQuestionSet();
+        currentQIndex = 0;
+        userScore = 0;
+        timeLeftSec = 300;
+        gameActive = true;
+        wrongAnswersLog = [];
+        answeredFlags = new Array(30).fill(false);
+        updateUIStats();
+        updateTimerDisplay();
+        startTimer();
+        renderCurrentQuestion();
+    }
+
+    // Initialize game
+    function initGame() {
+        gameQuestions = buildQuestionSet();
+        currentQIndex = 0;
+        userScore = 0;
+        timeLeftSec = 300;
+        gameActive = true;
+        wrongAnswersLog = [];
+        answeredFlags = new Array(30).fill(false);
+        updateUIStats();
+        updateTimerDisplay();
+        startTimer();
+        renderCurrentQuestion();
+    }
+
+    initGame();
+</script>
+</body>
+</html>
