@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>LexiClash · DSE Social Issues · MC Adventure</title>
+    <title>LexiClash · DSE Social Issues · Gap-Fill MC Game</title>
     <style>
         * {
             margin: 0;
@@ -13,13 +13,12 @@
 
         body {
             min-height: 100vh;
-            background: linear-gradient(135deg, #0b2b26 0%, #1a3a2f 25%, #0f2c2a 100%);
+            background: linear-gradient(135deg, #0f2b2a 0%, #1a3f3a 25%, #0e2a26 100%);
             font-family: 'Poppins', 'Segoe UI', 'Inter', system-ui, -apple-system, sans-serif;
             padding: 20px;
             position: relative;
         }
 
-        /* Animated background decoration */
         body::before {
             content: '';
             position: fixed;
@@ -27,7 +26,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" opacity="0.1"><path fill="none" stroke="%23ffd966" stroke-width="0.5" d="M20,30 Q35,20 50,30 T80,30 M15,50 Q30,40 50,50 T85,50 M25,70 Q40,60 55,70 T80,70"/><circle cx="45" cy="25" r="2" fill="%23ffd966"/><circle cx="70" cy="40" r="1.5" fill="%23facc15"/><circle cx="30" cy="65" r="2" fill="%23ffb347"/></svg>');
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" opacity="0.08"><path fill="none" stroke="%23ffd966" stroke-width="0.5" d="M20,30 Q35,20 50,30 T80,30 M15,50 Q30,40 50,50 T85,50 M25,70 Q40,60 55,70 T80,70"/><circle cx="45" cy="25" r="2" fill="%23ffd966"/><circle cx="70" cy="40" r="1.5" fill="%23facc15"/><circle cx="30" cy="65" r="2" fill="%23ffb347"/></svg>');
             background-repeat: repeat;
             pointer-events: none;
             z-index: 0;
@@ -37,7 +36,7 @@
             max-width: 1400px;
             width: 100%;
             margin: 0 auto;
-            background: rgba(15, 35, 30, 0.75);
+            background: rgba(15, 35, 30, 0.8);
             backdrop-filter: blur(10px);
             border-radius: 3rem;
             padding: 1.8rem;
@@ -47,7 +46,6 @@
             z-index: 2;
         }
 
-        /* Header Stats */
         .game-stats {
             display: flex;
             justify-content: space-between;
@@ -86,7 +84,6 @@
             color: #ffdf7e;
         }
 
-        /* Main Question Card */
         .question-panel {
             background: linear-gradient(145deg, #ffffff 0%, #fff9ef 100%);
             border-radius: 2rem;
@@ -130,33 +127,34 @@
         }
 
         .sentence {
-            font-size: 1.5rem;
-            font-weight: 600;
+            font-size: 1.4rem;
+            font-weight: 500;
             color: #1e2a2a;
             background: #fef7e0;
-            padding: 1.5rem;
+            padding: 1.8rem;
             border-radius: 1.5rem;
-            line-height: 1.5;
+            line-height: 1.6;
             text-align: center;
             font-family: 'Inter', monospace;
             margin: 1rem 0;
             box-shadow: inset 0 1px 4px rgba(0,0,0,0.05), 0 4px 12px rgba(0,0,0,0.1);
         }
 
-        .gap {
+        .blank {
             display: inline-block;
-            min-width: 160px;
-            background: #ffecb3;
+            min-width: 180px;
+            background: linear-gradient(145deg, #ffecb3, #ffe0a3);
             border-radius: 50px;
-            padding: 0 12px;
+            padding: 6px 20px;
             text-decoration: underline;
-            text-decoration-thickness: 4px;
+            text-decoration-thickness: 3px;
             text-decoration-color: #e67e22;
             color: #c0392b;
             font-weight: 800;
+            font-size: 1.2rem;
+            box-shadow: inset 0 1px 2px rgba(0,0,0,0.05), 0 2px 4px rgba(0,0,0,0.1);
         }
 
-        /* MC Options Grid - More Attractive */
         .options-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -230,7 +228,6 @@
             box-shadow: 0 3px 0 #7f5e1a;
         }
 
-        /* Feedback & Explanation Panel */
         .feedback {
             margin-top: 20px;
             background: #1e293be6;
@@ -272,7 +269,6 @@
             font-size: 0.9rem;
         }
 
-        /* Proceed Button */
         .proceed-btn {
             background: linear-gradient(95deg, #f97316, #facc15);
             border: none;
@@ -300,7 +296,6 @@
             display: none;
         }
 
-        /* Review & End Screen */
         .review-section {
             background: #0f2c24e6;
             border-radius: 2rem;
@@ -356,7 +351,8 @@
         }
 
         @media (max-width: 700px) {
-            .sentence { font-size: 1.1rem; }
+            .sentence { font-size: 1.1rem; padding: 1.2rem; }
+            .blank { min-width: 120px; font-size: 1rem; padding: 4px 12px; }
             .option-btn { padding: 12px 16px; }
             .illustration-emoji { font-size: 2.5rem; }
         }
@@ -373,84 +369,79 @@
 </div>
 
 <script>
-    // ==================== SIMPLE ENGLISH VOCAB BANK with illustrations mapping ====================
+    // ==================== VOCABULARY BANK (GAP-FILL SENTENCES) ====================
+    // Each entry has a sentence with a blank (__________) where the target word belongs
     const vocabBank = [
-        { word: "poverty", pos: "n.", chn: "貧窮", example: "Many people live without enough money or food." },
-        { word: "inequality", pos: "n.", chn: "不平等", example: "Some groups have fewer chances than others." },
-        { word: "discrimination", pos: "n.", chn: "歧視", example: "Treating someone badly because of their race is wrong." },
-        { word: "marginalized", pos: "adj.", chn: "被邊緣化的", example: "Some groups are pushed aside and ignored." },
-        { word: "gentrification", pos: "n.", chn: "仕紳化", example: "When rich people move in, poor people must leave." },
-        { word: "homelessness", pos: "n.", chn: "無家可歸", example: "Having no place to sleep is a big problem." },
-        { word: "subsidize", pos: "v.", chn: "資助", example: "The government gives money to help low-income families." },
-        { word: "advocate", pos: "v.", chn: "提倡", example: "To speak up for a cause you believe in." },
-        { word: "stigma", pos: "n.", chn: "污名", example: "Negative feelings people have about a certain thing." },
-        { word: "exploitation", pos: "n.", chn: "剝削", example: "Using someone unfairly for your own gain." },
-        { word: "diversity", pos: "n.", chn: "多樣性", example: "Many different kinds of people and cultures." },
-        { word: "inclusive", pos: "adj.", chn: "包容的", example: "Including everyone, no matter their background." },
-        { word: "sustainable", pos: "adj.", chn: "可持續的", example: "Using resources so they last for future." },
-        { word: "vulnerable", pos: "adj.", chn: "脆弱的", example: "Easy to hurt or harm." },
-        { word: "welfare", pos: "n.", chn: "福利", example: "Help from the government for people in need." },
-        { word: "disparity", pos: "n.", chn: "差距", example: "A big difference between rich and poor." },
-        { word: "alienation", pos: "n.", chn: "疏離感", example: "Feeling alone even when with others." },
-        { word: "rehabilitate", pos: "v.", chn: "改造", example: "Help someone become a good member of society again." },
-        { word: "empowerment", pos: "n.", chn: "賦權", example: "Giving people power and confidence." },
-        { word: "prejudice", pos: "n.", chn: "偏見", example: "Judging someone before you know them." },
-        { word: "humanitarian", pos: "adj.", chn: "人道主義的", example: "Helping people who are suffering." },
-        { word: "civic", pos: "adj.", chn: "公民的", example: "Related to being a citizen and community." },
-        { word: "segregation", pos: "n.", chn: "隔離", example: "Keeping groups apart unfairly." },
-        { word: "affordable", pos: "adj.", chn: "負擔得起的", example: "Cheap enough for most people to buy." },
-        { word: "activism", pos: "n.", chn: "行動主義", example: "Working hard to create social change." },
-        { word: "xenophobia", pos: "n.", chn: "仇外心理", example: "Fear or hatred of strangers or foreigners." },
-        { word: "philanthropy", pos: "n.", chn: "慈善", example: "Giving money or time to help others." },
-        { word: "recidivism", pos: "n.", chn: "再犯", example: "When a former prisoner commits a crime again." },
-        { word: "stagnation", pos: "n.", chn: "停滯", example: "No growth or improvement." },
-        { word: "solidarity", pos: "n.", chn: "團結", example: "Standing together to support each other." }
+        { word: "poverty", pos: "n.", chn: "貧窮", sentence: "Many families in the city struggle with __________ and cannot afford basic needs like food and shelter." },
+        { word: "inequality", pos: "n.", chn: "不平等", sentence: "The growing __________ between rich and poor is one of the biggest challenges facing society today." },
+        { word: "discrimination", pos: "n.", chn: "歧視", sentence: "Laws exist to protect people from __________ based on their race, gender, or religion." },
+        { word: "marginalized", pos: "adj.", chn: "被邊緣化的", sentence: "__________ groups often have less access to education, healthcare, and job opportunities." },
+        { word: "gentrification", pos: "n.", chn: "仕紳化", sentence: "__________ often forces long-term residents to leave their neighborhoods because rents become too high." },
+        { word: "homelessness", pos: "n.", chn: "無家可歸", sentence: "The city is working to reduce __________ by building more affordable housing and shelters." },
+        { word: "subsidize", pos: "v.", chn: "資助", sentence: "The government plans to __________ public transportation to make it more affordable for low-income citizens." },
+        { word: "advocate", pos: "v.", chn: "提倡", sentence: "Many environmental groups __________ for stronger laws to protect our planet from pollution." },
+        { word: "stigma", pos: "n.", chn: "污名", sentence: "There is still a __________ attached to mental health issues, which prevents people from seeking help." },
+        { word: "exploitation", pos: "n.", chn: "剝削", sentence: "Child labor is a form of __________ that violates basic human rights." },
+        { word: "diversity", pos: "n.", chn: "多樣性", sentence: "Our company values cultural __________ and welcomes employees from all backgrounds." },
+        { word: "inclusive", pos: "adj.", chn: "包容的", sentence: "We need more __________ policies that ensure everyone feels welcome and respected." },
+        { word: "sustainable", pos: "adj.", chn: "可持續的", sentence: "We must find __________ ways to use natural resources without harming future generations." },
+        { word: "vulnerable", pos: "adj.", chn: "脆弱的", sentence: "Children and the elderly are especially __________ during natural disasters like floods and earthquakes." },
+        { word: "welfare", pos: "n.", chn: "福利", sentence: "Social __________ programs provide financial support to people who have lost their jobs." },
+        { word: "disparity", pos: "n.", chn: "差距", sentence: "The __________ in income between different social classes continues to widen each year." },
+        { word: "alienation", pos: "n.", chn: "疏離感", sentence: "Feelings of __________ can lead to loneliness, depression, and social withdrawal." },
+        { word: "rehabilitate", pos: "v.", chn: "改造", sentence: "Prisons should focus on helping to __________ offenders so they can rejoin society successfully." },
+        { word: "empowerment", pos: "n.", chn: "賦權", sentence: "Education provides __________, giving young people the tools to build better futures." },
+        { word: "prejudice", pos: "n.", chn: "偏見", sentence: "__________ against others often comes from fear and lack of understanding." },
+        { word: "humanitarian", pos: "adj.", chn: "人道主義的", sentence: "The organization provides __________ aid to refugees fleeing war and persecution." },
+        { word: "civic", pos: "adj.", chn: "公民的", sentence: "Voting in elections is an important __________ duty that every citizen should fulfill." },
+        { word: "segregation", pos: "n.", chn: "隔離", sentence: "Racial __________ was declared illegal, but its effects still impact communities today." },
+        { word: "affordable", pos: "adj.", chn: "負擔得起的", sentence: "Finding __________ housing is becoming increasingly difficult for young people in major cities." },
+        { word: "activism", pos: "n.", chn: "行動主義", sentence: "Student __________ has led to significant changes in environmental policies on campus." },
+        { word: "xenophobia", pos: "n.", chn: "仇外心理", sentence: "__________ harms communities by creating division and fear between different groups of people." },
+        { word: "philanthropy", pos: "n.", chn: "慈善", sentence: "The billionaire's __________ funded the construction of new schools and hospitals." },
+        { word: "recidivism", pos: "n.", chn: "再犯", sentence: "Job training programs help reduce __________ by giving former prisoners employment opportunities." },
+        { word: "stagnation", pos: "n.", chn: "停滯", sentence: "Economic __________ leads to fewer jobs, lower wages, and reduced opportunities for young people." },
+        { word: "solidarity", pos: "n.", chn: "團結", sentence: "Workers showed __________ by standing together during the strike for better working conditions." }
     ];
 
-    // Fun illustrations per theme
+    // Fun illustrations for each vocabulary theme
     const illustrationMap = {
-        poverty: ["🏚️", "💰❌", "Helping hands needed"],
-        inequality: ["⚖️📉", "🚫⚖️", "Fairness for all"],
-        discrimination: ["🚫👥", "😔👎", "Equal rights matter"],
-        marginalized: ["🗣️🔇", "👥🚪", "Voices unheard"],
-        gentrification: ["🏙️🏚️➡️🏢", "🏠💸", "Changing neighborhoods"],
-        homelessness: ["🛌🌧️", "🏕️🚫", "Homes for everyone"],
-        subsidize: ["💰🏥", "🤝💵", "Financial support"],
-        advocate: ["📢🗣️", "🎤✊", "Speak up!"],
-        stigma: ["😔🏷️", "🚫❤️", "Break the shame"],
-        exploitation: ["⛓️👷", "😠💼", "Unfair work"],
-        diversity: ["🌍🤝", "🎨👥", "Many cultures united"],
-        inclusive: ["🤝🚪", "🏳️‍🌈❤️", "Everyone welcome"],
-        sustainable: ["🌱♻️", "🌍🌿", "Protect our Earth"],
-        vulnerable: ["🛡️😟", "🌧️👶", "Need protection"],
-        welfare: ["🏛️🤲", "🍲❤️", "Community care"],
-        disparity: ["📊🏔️", "💰📉", "Wide gap"],
-        alienation: ["😔🗣️", "🧍🌌", "Feeling alone"],
-        rehabilitate: ["🏥🔄", "🌱👨‍🎓", "Second chance"],
-        empowerment: ["💪✨", "🌟🙌", "Strength to act"],
-        prejudice: ["🚫👀", "😠⚖️", "Judge fairly"],
-        humanitarian: ["🕊️🤲", "🌍❤️", "Help all people"],
-        civic: ["🏛️🗳️", "👥📜", "Community duty"],
-        segregation: ["🚫🧑🤝🧑", "🧱🌍", "Together we stand"],
-        affordable: ["🏠💰", "🛒💵", "Fair prices"],
-        activism: ["📢✊", "🌍🔥", "Change makers"],
-        xenophobia: ["🚫🌍", "😨👥", "Open hearts"],
-        philanthropy: ["🎁❤️", "🏦🤲", "Generosity"],
-        recidivism: ["🚔🔄", "🏛️🔁", "Breaking cycles"],
-        stagnation: ["⏸️📉", "🚫🌱", "Need growth"],
-        solidarity: ["🤝❤️", "👊🌍", "Together strong"]
+        poverty: ["🏚️🍚", "No one should go hungry"],
+        inequality: ["⚖️📉", "Fairness for everyone"],
+        discrimination: ["🚫👥", "Equal rights matter"],
+        marginalized: ["🗣️🔇", "Every voice matters"],
+        gentrification: ["🏙️🏚️", "Housing for all"],
+        homelessness: ["🛌🌧️", "A home for everyone"],
+        subsidize: ["💰🏥", "Helping those in need"],
+        advocate: ["📢🗣️", "Speak up for change"],
+        stigma: ["😔🏷️", "Break the silence"],
+        exploitation: ["⛓️👷", "Fair work for all"],
+        diversity: ["🌍🤝", "Many cultures united"],
+        inclusive: ["🤝🚪", "Everyone belongs"],
+        sustainable: ["🌱♻️", "Protect our future"],
+        vulnerable: ["🛡️😟", "Protect the weak"],
+        welfare: ["🏛️🤲", "Community support"],
+        disparity: ["📊🏔️", "Close the gap"],
+        alienation: ["😔🗣️", "Connect with others"],
+        rehabilitate: ["🏥🔄", "Second chances"],
+        empowerment: ["💪✨", "Strength within"],
+        prejudice: ["🚫👀", "Judge with kindness"],
+        humanitarian: ["🕊️🤲", "Help all people"],
+        civic: ["🏛️🗳️", "Be a good citizen"],
+        segregation: ["🚫🧑🤝🧑", "Together we stand"],
+        affordable: ["🏠💰", "Fair prices matter"],
+        activism: ["📢✊", "Make a difference"],
+        xenophobia: ["🚫🌍", "Open hearts welcome"],
+        philanthropy: ["🎁❤️", "Give generously"],
+        recidivism: ["🚔🔄", "Breaking the cycle"],
+        stagnation: ["⏸️📉", "Keep growing"],
+        solidarity: ["🤝❤️", "Together we rise"]
     };
 
     function getIllustration(word) {
-        const fallback = ["🎨📚", "💡🌍", "Learn & grow"];
         const data = illustrationMap[word.toLowerCase()];
-        if (data) return { emoji: data[0], text: data[2] };
-        return { emoji: "📖✨", text: "Vocabulary power!" };
-    }
-
-    function buildGapSentence(wordObj) {
-        const regex = new RegExp(`\\b${wordObj.word}\\b`, 'gi');
-        return wordObj.example.replace(regex, '__________');
+        if (data) return { emoji: data[0], text: data[1] };
+        return { emoji: "📖✨", text: "Learn vocabulary" };
     }
 
     function getDistractors(correctWord, allVocab, count = 3) {
@@ -468,17 +459,17 @@
             const j = Math.floor(Math.random() * (i + 1));
             [shuffledVocab[i], shuffledVocab[j]] = [shuffledVocab[j], shuffledVocab[i]];
         }
-        return shuffledVocab.map(wordObj => {
-            const distractors = getDistractors(wordObj.word, vocabBank, 3);
-            let options = [wordObj.word, ...distractors];
+        return shuffledVocab.map(vocabItem => {
+            const distractors = getDistractors(vocabItem.word, vocabBank, 3);
+            let options = [vocabItem.word, ...distractors];
             for (let i = options.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
                 [options[i], options[j]] = [options[j], options[i]];
             }
             return {
-                wordObj: wordObj,
-                sentence: buildGapSentence(wordObj),
-                correctAnswer: wordObj.word.toLowerCase(),
+                wordObj: vocabItem,
+                sentence: vocabItem.sentence,
+                correctAnswer: vocabItem.word.toLowerCase(),
                 options: options
             };
         });
@@ -528,7 +519,9 @@
         }
         const qData = gameQuestions[currentQIndex];
         const illust = getIllustration(qData.wordObj.word);
-        const sentenceHtml = qData.sentence.replace(/__________/g, '<span class="gap">__________</span>');
+        const sentenceWithBlank = qData.sentence;
+        const sentenceHtml = sentenceWithBlank.replace(/__________/g, '<span class="blank">__________</span>');
+        
         let optionsHtml = `<div class="options-grid" id="optionsGrid">`;
         const prefixes = ['A', 'B', 'C', 'D'];
         qData.options.forEach((opt, idx) => {
@@ -539,7 +532,7 @@
                 </button>
             `;
         });
-        optionsHtml += `</div><div id="feedbackArea" class="feedback">✨ Choose the correct word. +10 points, wrong = -5 points. You will see a full explanation.</div>
+        optionsHtml += `</div><div id="feedbackArea" class="feedback">✨ Choose the word that best completes the sentence. +10 points, wrong = -5 points.</div>
         <button id="proceedBtn" class="proceed-btn hidden">➡️ NEXT QUESTION</button>`;
 
         const fullHtml = `
@@ -556,7 +549,6 @@
         `;
         document.getElementById('dynamicContent').innerHTML = fullHtml;
 
-        // attach event listeners
         const btns = document.querySelectorAll('.option-btn');
         const proceedBtn = document.getElementById('proceedBtn');
         
@@ -569,14 +561,13 @@
                 if (!gameActive || waitingForProceed) return;
                 if (answeredFlags[currentQIndex]) {
                     const fb = document.getElementById('feedbackArea');
-                    fb.innerHTML = `⚠️ You already answered. Click "NEXT QUESTION" to continue.`;
+                    fb.innerHTML = `⚠️ You already answered this question. Click "NEXT QUESTION" to continue.`;
                     return;
                 }
                 const selectedValue = btn.getAttribute('data-value');
                 const currentQ = gameQuestions[currentQIndex];
                 const isCorrect = (selectedValue === currentQ.correctAnswer);
 
-                // highlight feedback
                 btns.forEach(b => {
                     const val = b.getAttribute('data-value');
                     if (val === currentQ.correctAnswer) b.classList.add('correct-highlight');
@@ -586,29 +577,27 @@
                 if (isCorrect) {
                     userScore += 10;
                     updateUIStats();
-                    document.getElementById('feedbackArea').innerHTML = `✅ CORRECT! +10 points. Great job! The word "${currentQ.wordObj.word}" fits perfectly.`;
+                    document.getElementById('feedbackArea').innerHTML = `✅ CORRECT! +10 points. "${currentQ.wordObj.word}" is the right word to complete the sentence.`;
                     answeredFlags[currentQIndex] = true;
                 } else {
                     userScore -= 5;
                     updateUIStats();
                     wrongAnswersLog.push(currentQ.wordObj);
-                    // Show detailed explanation with Chinese, part of speech and simple example
                     const vocab = currentQ.wordObj;
                     const explanationHtml = `
                         <div class="vocab-card">
                             <div class="word">🔤 ${vocab.word} (${vocab.pos})</div>
                             <div class="vocab-detail">🇨🇳 ${vocab.chn}</div>
-                            <div class="simple-example">📌 Simple Example: ${vocab.example}</div>
-                            <div style="margin-top:6px;">💡 <strong>Remember:</strong> "${vocab.word}" means ${vocab.chn}.</div>
+                            <div class="simple-example">📌 Example: ${vocab.sentence.replace('__________', vocab.word)}</div>
+                            <div style="margin-top:8px;">💡 <strong>Remember:</strong> "${vocab.word}" means ${vocab.chn} in Chinese.</div>
                         </div>
                     `;
-                    document.getElementById('feedbackArea').innerHTML = `❌ WRONG! Correct word: <strong style="color:#ffb347">"${vocab.word}"</strong>. -5 points. ${explanationHtml}`;
+                    document.getElementById('feedbackArea').innerHTML = `❌ WRONG! The correct word is <strong style="color:#ffb347">"${vocab.word}"</strong>. -5 points. ${explanationHtml}`;
                     answeredFlags[currentQIndex] = true;
                 }
                 disableOptions();
                 waitingForProceed = true;
                 proceedBtn.classList.remove('hidden');
-                // timer stops while showing explanation (players can read without pressure)
             });
         });
 
@@ -622,7 +611,14 @@
         });
     }
 
-    function escapeHtml(str) { return str.replace(/[&<>]/g, function(m) { if(m==='&') return '&amp;'; if(m==='<') return '&lt;'; if(m==='>') return '&gt;'; return m;}); }
+    function escapeHtml(str) {
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
 
     function endGameSuccess() {
         if (timerInterval) clearInterval(timerInterval);
@@ -641,16 +637,23 @@
         const uniqueWrong = Array.from(uniqueMap.values());
         let reviewHtml = '';
         if (uniqueWrong.length > 0) {
-            reviewHtml = `<div class="review-section"><div class="review-title">📘 VOCAB REVIEW (words to practice)</div><div class="review-grid">`;
+            reviewHtml = `<div class="review-section"><div class="review-title">📘 VOCABULARY REVIEW (Words to Practice)</div><div class="review-grid">`;
             uniqueWrong.forEach(v => {
-                reviewHtml += `<div class="review-item"><div class="review-word">${v.word} (${v.pos})</div><div>🇨🇳 ${v.chn}</div><div class="simple-example">📌 ${v.example}</div></div>`;
+                const completedSentence = v.sentence.replace('__________', v.word);
+                reviewHtml += `
+                    <div class="review-item">
+                        <div class="review-word">${v.word} (${v.pos})</div>
+                        <div>🇨🇳 ${v.chn}</div>
+                        <div class="simple-example" style="margin-top:6px;">📌 ${completedSentence}</div>
+                    </div>
+                `;
             });
             reviewHtml += `</div></div>`;
         } else {
-            reviewHtml = `<div class="review-section"><div class="review-title">🌟 AMAZING! No mistakes! You're a vocabulary master! 🌟</div></div>`;
+            reviewHtml = `<div class="review-section"><div class="review-title">🌟 PERFECT SCORE! You've mastered all 30 vocabulary words! 🌟</div></div>`;
         }
-        const finalMsg = isTimeout ? "⏰ TIME'S UP! But you learned a lot!" : "🎉 YOU DID IT! All 30 questions completed! 🎉";
-        const finalHtml = `<div class="end-screen"><div class="final-score">🏆 SCORE: ${userScore} / 300</div><p style="color:#f1f5e9; margin:10px">${finalMsg}</p><button class="btn-restart" id="restartBtn">⟳ PLAY AGAIN</button>${reviewHtml}</div>`;
+        const finalMsg = isTimeout ? "⏰ TIME'S UP! Keep practicing to improve your score!" : "🎉 CONGRATULATIONS! You completed all 30 gap-fill questions! 🎉";
+        const finalHtml = `<div class="end-screen"><div class="final-score">🏆 FINAL SCORE: ${userScore} / 300</div><p style="color:#f1f5e9; margin:10px">${finalMsg}</p><button class="btn-restart" id="restartBtn">⟳ PLAY AGAIN</button>${reviewHtml}</div>`;
         document.getElementById('dynamicContent').innerHTML = finalHtml;
         document.getElementById('restartBtn').addEventListener('click', () => resetAndRestart());
     }
